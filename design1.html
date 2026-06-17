@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Provider | Heartify</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Righteous|Fredoka+One|Russo+One" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon">
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #eef2f7;
+            font-family: 'Righteous', sans-serif;
+        }
+
+        /* Top Header */
+        .header {
+            background: linear-gradient(135deg, #e63946, #b91d2c);
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-family: 'Fredoka One', cursive;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation Bar */
+        .topnav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: #e6e6e6;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .topnav a {
+            color: #1d3557;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .topnav a:hover {
+            background-color: #e63946;
+            color: #ffffff;
+            border-radius: 5px;
+        }
+
+        /* Main Content */
+        .mainholder {
+            padding: 40px 20px;
+            min-height: 80vh;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 18px;
+                padding: 0 10px;
+            }
+
+            .topnav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .topnav a {
+                width: 100%;
+                text-align: center;
+                border-top: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Heartify: CICU Cardiac Care</h1>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="topnav">
+        <a href="{% url 'train_model' %}">Browse and Train & Test Data Sets</a>
+        <a href="{% url 'likeschart' 'bar' %}">Accuracy Bar Chart</a>
+        <a href="{% url 'charts1' 'line' %}">Accuracy Results</a>
+        <a href="{% url 'View_Prediction_Of_Cardiac_Arrest_Type' %}">Prediction Type</a>
+        <a href="{% url 'View_Prediction_Of_Cardiac_Arrest_Type_Ratio' %}">Prediction Ratio</a>
+        <a href="{% url 'Download_Predicted_DataSets' %}">Download Data</a>
+        <a href="{% url 'charts' 'line' %}">Ratio Results</a>
+        <a href="{% url 'View_Remote_Users' %}">Remote Users</a>
+        <a href="{% url 'login' %}">Logout</a>
+    </div>
+
+    <!-- Dynamic Content -->
+    <div class="mainholder">
+        {% block researchblock %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

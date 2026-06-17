@@ -1,0 +1,247 @@
+{% extends 'RUser/design.html' %}
+{% block userblock %}
+
+<link href="https://fonts.googleapis.com/css?family=Inter:400,600,700&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --primary-color: #e63946;
+        --secondary-color: #457b9d;
+        --accent-color: #1d3557;
+        --bg-color: #f1faee;
+        --card-bg: #ffffff;
+        --text-color: #333;
+    }
+
+    body {
+        background-color: var(--bg-color);
+        font-family: 'Inter', sans-serif;
+    }
+
+    .prediction-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 40px;
+        background: var(--card-bg);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .page-header h2 {
+        color: var(--primary-color);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .page-header p {
+        color: #666;
+        font-size: 0.95rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+        color: var(--accent-color);
+    }
+
+    .form-group input, .form-group select {
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: border 0.3s ease;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+        border-color: var(--primary-color);
+        outline: none;
+    }
+
+    .submit-container {
+        grid-column: span 2;
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .btn-predict {
+        background: var(--primary-color);
+        color: white;
+        padding: 14px 40px;
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.3s;
+        box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+    }
+
+    .btn-predict:hover {
+        background: #d62839;
+        transform: translateY(-2px);
+    }
+
+    .result-container {
+        margin-top: 50px;
+        padding: 25px;
+        border-radius: 12px;
+        text-align: center;
+        background: #fff5f5;
+        border: 2px dashed #ffcaca;
+    }
+
+    .result-title {
+        font-size: 1.2rem;
+        color: var(--accent-color);
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    .result-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+        .submit-container {
+            grid-column: span 1;
+        }
+    }
+</style>
+
+<div class="prediction-container">
+    <div class="page-header">
+        <h2>Heartify Analysis</h2>
+        <p>Early Detection of Cardiac Arrest in Newborn Babies (CICU)</p>
+    </div>
+
+    {% if error %}
+    <div style="background-color: #ffe5e5; color: #d63031; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #fab1a0; text-align: center; font-weight: 600;">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Fid (Patient Identifier)</label>
+                <input type="text" name="Fid" required value="{{ user_input.Fid }}" placeholder="e.g. 172.217.10.142">
+            </div>
+            <div class="form-group">
+                <label>Age In Days</label>
+                <input type="number" name="Age_In_Days" required value="{{ user_input.Age_In_Days }}" placeholder="Age in days">
+            </div>
+            <div class="form-group">
+                <label>Sex</label>
+                <select name="Sex" required>
+                    <option value="">Select Sex</option>
+                    <option value="M" {% if user_input.Sex == 'M' %}selected{% endif %}>Male</option>
+                    <option value="F" {% if user_input.Sex == 'F' %}selected{% endif %}>Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Chest Pain Type</label>
+                <input type="text" name="ChestPainType" required value="{{ user_input.ChestPainType }}" placeholder="e.g. ATA">
+            </div>
+            <div class="form-group">
+                <label>Resting Blood Pressure</label>
+                <input type="number" name="RestingBP" required value="{{ user_input.RestingBP }}" placeholder="Resting BP">
+            </div>
+            <div class="form-group">
+                <label>Resting ECG</label>
+                <input type="text" name="RestingECG" required value="{{ user_input.RestingECG }}" placeholder="e.g. Normal">
+            </div>
+            <div class="form-group">
+                <label>Max Heart Rate</label>
+                <input type="number" name="MaxHR" required value="{{ user_input.MaxHR }}" placeholder="Max HR">
+            </div>
+            <div class="form-group">
+                <label>Exercise Angina</label>
+                <select name="ExerciseAngina" required>
+                    <option value="">Select</option>
+                    <option value="Y" {% if user_input.ExerciseAngina == 'Y' %}selected{% endif %}>Yes</option>
+                    <option value="N" {% if user_input.ExerciseAngina == 'N' %}selected{% endif %}>No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Oldpeak</label>
+                <input type="text" name="Oldpeak" required value="{{ user_input.Oldpeak }}" placeholder="e.g. 0.5">
+            </div>
+            <div class="form-group">
+                <label>ST Slope</label>
+                <input type="text" name="ST_Slope" required value="{{ user_input.ST_Slope }}" placeholder="e.g. Up">
+            </div>
+            <div class="form-group">
+                <label>slp</label>
+                <input type="number" name="slp" required value="{{ user_input.slp }}" placeholder="e.g. 1">
+            </div>
+            <div class="form-group">
+                <label>caa</label>
+                <input type="number" name="caa" required value="{{ user_input.caa }}" placeholder="e.g. 0">
+            </div>
+            <div class="form-group">
+                <label>thall</label>
+                <input type="number" name="thall" required value="{{ user_input.thall }}" placeholder="e.g. 3">
+            </div>
+
+            <div class="submit-container">
+                <button type="submit" class="btn-predict">Run Statistical Prediction</button>
+            </div>
+        </div>
+    </form>
+
+    {% if objs %}
+    <div class="result-container">
+        <div class="result-title">Analysis Result for Patient {{ user_input.Fid }}:</div>
+        <div class="result-value">{{objs}}</div>
+        
+        <div style="margin-top: 30px; text-align: left; background: white; padding: 20px; border-radius: 12px; border: 1px solid #eee;">
+            <h4 style="color: #1d3557; font-size: 1rem; margin-bottom: 15px; border-bottom: 2px solid #e63946; display: inline-block; padding-bottom: 5px;">Key Contributing Factors (Clinical Reasoning):</h4>
+            <div style="display: grid; gap: 10px;">
+                {% for reason in reasons %}
+                <div style="display: flex; justify-content: space-between; font-size: 0.9rem; padding: 8px; border-bottom: 1px dashed #eee;">
+                    <span><strong>{{ reason.name }}</strong> (entered: {{ reason.value }})</span>
+                    <span style="color: #e63946; font-weight: 700;">Impact: {{ reason.impact }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            <p style="margin-top: 15px; font-size: 0.8rem; color: #666; font-style: italic;">
+                The model identified the above factors as the strongest clinical indicators in your data that match the high-risk patterns found in the 900+ patient records of the Heartify dataset.
+            </p>
+        </div>
+        
+        <p style="margin-top: 20px; font-size: 0.8rem; color: #666;">Generated using Heartify V3 Intelligent Analysis Model</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

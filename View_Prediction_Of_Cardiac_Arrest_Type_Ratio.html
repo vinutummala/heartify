@@ -1,0 +1,144 @@
+{% extends 'SProvider/design1.html' %}
+{% load static %}
+{% block researchblock %}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Righteous|Fredoka+One|Lobster" rel="stylesheet">
+<link rel="icon" href="{% static 'images/icon.png' %}" type="image/x-icon" />
+
+<style>
+    body {
+        background-color: #eef2f7;
+        font-family: 'Righteous', sans-serif;
+    }
+
+    .ratio-container {
+        padding: 60px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ratio-card {
+        width: 100%;
+        max-width: 900px;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .ratio-header {
+        background: linear-gradient(135deg, #e63946, #b91d2c);
+        color: #ffffff;
+        text-align: center;
+        padding: 25px;
+    }
+
+    .ratio-header h2 {
+        margin: 0;
+        font-size: 1.6rem;
+        font-family: 'Fredoka One', cursive;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .ratio-body {
+        padding: 30px;
+    }
+
+    .table {
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        background-color: #e63946;
+        color: #ffffff;
+        text-align: center;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        border: none;
+    }
+
+    .table tbody td {
+        text-align: center;
+        color: #1d3557;
+        font-size: 1rem;
+        font-weight: 600;
+        vertical-align: middle;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    .table tbody tr:hover {
+        background-color: #ffe5e5;
+        transition: 0.3s ease;
+    }
+
+    .no-data {
+        text-align: center;
+        color: #e63946;
+        font-weight: bold;
+        padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .ratio-header h2 {
+            font-size: 1.3rem;
+        }
+
+        .ratio-body {
+            padding: 15px;
+        }
+
+        .table {
+            font-size: 0.85rem;
+        }
+    }
+</style>
+
+<div class="container-fluid ratio-container">
+    <div class="ratio-card">
+
+        <div class="ratio-header">
+            <h2>Detection of Cardiac Arrest Type Found Ratio Details</h2>
+        </div>
+
+        <div class="ratio-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Cardiac Arrest Type</th>
+                                <th>Ratio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object in objs %}
+                            <tr>
+                                <td>{{ object.names }}</td>
+                                <td>{{ object.ratio }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="2" class="no-data">
+                                    No Data Available
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

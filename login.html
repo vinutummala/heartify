@@ -1,0 +1,173 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>Login</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: white;
+        }
+
+        #nav1 {
+            height: 150px;
+            background-color: rgb(184, 17, 17);
+            color: antiquewhite;
+            font-family:Georgia, 'Times New Roman', Times, serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .text-center {
+            margin-top: 10px;
+        }
+
+        .container-fluid {
+            padding: 0;
+        }
+
+        #title {
+            font-family: 'Fredoka One', cursive;
+        }
+
+        .text-uppercase {
+            font-family: 'Righteous', cursive;
+        }
+
+        .style1 {
+            color: #FF0000;
+        }
+
+        .style4 {
+            color: gray;
+            font-weight: bold;
+			
+        }
+
+        .style5 {
+            font-family: 'Righteous', cursive;
+            color: #FF0000;
+            font-weight: bold;
+        }
+
+        .login-card {
+            background-color: #f5efe6;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 8px 25px rgba(0,0,0,0.2);
+            text-align: center;
+			height: 400px;
+			width: 470px;
+        }
+
+        .login-card input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .login-card input[type="submit"] {
+            background-color: #2d6cdf;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            width: 100%;
+        }
+
+        .login-card button {
+            margin: 5px;
+        }
+
+        .illustration {
+            text-align: center;
+        }
+
+        .illustration img {
+            width: 80%;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+    <div id="nav1">
+        <h2 id="title">
+            Heartify: Early Detection of Cardiac Arrest
+            in Newborn Babies in CICU
+        </h2>
+    </div>
+
+    <p class="text-center">
+        <span class="style4">
+            <small>
+                Cardiac arrest, newborn, early detection, intensive care unit, statistical modeling.
+            </small>
+        </span>
+    </p>
+
+    <div class="container mt-5">
+        <div class="row align-items-center">
+
+            <!-- LEFT IMAGE -->
+            <div class="col-md-6 illustration">
+                <img src="https://media.istockphoto.com/id/831634836/vector/pediatrician-doctor-woman-examining-newborn-baby.jpg?s=612x612&w=0&k=20&c=SEMBnA_VSRzpLF8pcri86SA2IgjIVxJfl63ChHbQAD4=" alt="My image">
+            </div>
+
+            <!-- RIGHT LOGIN CARD -->
+            <div class="col-md-6">
+                <div class="login-card">
+                    <form method="POST" role="form">
+                        {% csrf_token %}
+
+                        <p class="style5">Login Using Your Account:</p>
+
+                        {% if error %}
+                        <div class="alert alert-danger" style="font-size: 0.8rem; margin-bottom: 15px;">
+                            {{ error }}
+                        </div>
+                        {% endif %}
+
+                        <input type="text" name="username" placeholder="User Name" required>
+                        <input type="password" name="password" placeholder="Password" required>
+
+                        <input type="submit" name="submit1" class="btn btn-md" value="Sign In">
+
+                        <hr>
+
+                        <button class="btn btn-success btn-sm">
+                            <a href="{% url 'Register1' %}" style="color:white;padding:40px;">REGISTER</a>
+                        </button>
+
+                        <br><br>
+
+                        <a href="{% url 'serviceproviderlogin' %}">Service Provider</a>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
